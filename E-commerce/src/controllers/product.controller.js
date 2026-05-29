@@ -1,7 +1,5 @@
-export const getAllProduct=async(req,res)=>{
-    try {
-        
-    } catch (error) {
-        
-    }
-}
+import asyncHandler from "../utils/asyncHandler.js";
+
+export const getAllProduct = asyncHandler(async (req, res) => {
+
+});
