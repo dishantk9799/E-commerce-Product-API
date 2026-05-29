@@ -1,4 +1,5 @@
 import express from 'express';
+import errorMiddleware from './middlewares/error.middleware.js';
 
 const app = express();
 

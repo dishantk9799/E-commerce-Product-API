@@ -8,6 +8,7 @@ const productSchema = new mongoose.Schema({
     },
     description: {
         type: String,
+        default: ""
     },
     price: {
         type: Number,
@@ -15,6 +16,7 @@ const productSchema = new mongoose.Schema({
     },
     category: {
         type: String,
+        default: "general"
     },
     images: {
         type: [String],
