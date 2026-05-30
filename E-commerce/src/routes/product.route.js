@@ -1,11 +1,19 @@
 import express from 'express';
 import { createProduct, getAllProducts, getProductById } from '../controllers/product.controller.js';
 import verifyJWT from '../middlewares/auth.middleware.js';
+import upload from '../middlewares/multer.middleware.js';
 
-const route = express.Router();
+const router = express.Router();
 
-route.get('/', getAllProducts);
+// ---- Get all products ----
+router.get('/', getAllProducts);
+
+// ---- Get single product by id ----
 router.get('/:id', getProductById);
-router.post('/', verifyJWT, createProduct);
 
-export default route;
+// ---- Create new product ----
+// ---- Protected route ----
+// ---- Accept multiple image uploads ----
+router.post('/', verifyJWT,upload.array("images", 5), createProduct);
+
+export default router;
