@@ -71,3 +71,42 @@ export const createProduct = asyncHandler(async (req, res) => {
   // ---- Success response send to client ----
   return res.status(201).json(new ApiResponse(201, product, "Product created successfully"));
 });
+
+// ---- Update product ----
+export const updateProduct = asyncHandler(async (req, res) => {
+
+  // ---- Client side data ----
+  const { id } = req.params;
+  const { name, description, price, category } = req.body;
+
+  // ---- Validate request body ----
+  if (
+    !name &&
+    !description &&
+    !price &&
+    !category &&
+    (!req.files || req.files.length === 0)
+  ) throw new ApiError(400, "At least one field is required to update product");
+  if (price !== undefined && isNaN(price)) throw new ApiError(400, "Price must be a number");
+
+  // ---- Find product ----
+  const product = await Product.findById(id);
+
+  // ---- Check product exists ----
+  if (!product) throw new ApiError(404, "Product not found");
+
+  // ---- Get uploaded images ----
+  const images = req.files?.map(file => file.path);
+
+  // ---- Create update object ----
+  const updateData = { name, description, price, category };
+
+  // ---- Add images if new images are uploaded ----
+  if (images && images.length > 0) updateData.images = images;
+
+  // ---- Update product and return updated document ----
+  const updatedProduct = await Product.findByIdAndUpdate(id, updateData, { new: true });
+
+  // ---- Success response send to client ----
+  return res.status(200).json(new ApiResponse(200, updatedProduct, "Product updated successfully"));
+});
