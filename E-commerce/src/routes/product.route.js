@@ -1,5 +1,5 @@
 import express from 'express';
-import { createProduct, getAllProducts, getProductById, updateProduct } from '../controllers/product.controller.js';
+import { createProduct, deleteProduct, getAllProducts, getProductById, updateProduct } from '../controllers/product.controller.js';
 import verifyJWT from '../middlewares/auth.middleware.js';
 import upload from '../middlewares/multer.middleware.js';
 
@@ -20,5 +20,9 @@ router.post('/', verifyJWT, upload.array("images", 5), createProduct);
 // ---- Protected route ----
 // ---- Accept multiple image uploads ----
 router.put("/:id", verifyJWT, upload.array("images", 5), updateProduct);
+
+// ---- Delete product by id ----
+// ---- Protected route ----
+router.delete('/:id', verifyJWT, deleteProduct);
 
 export default router;

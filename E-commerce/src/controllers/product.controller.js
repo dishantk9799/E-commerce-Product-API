@@ -110,3 +110,23 @@ export const updateProduct = asyncHandler(async (req, res) => {
   // ---- Success response send to client ----
   return res.status(200).json(new ApiResponse(200, updatedProduct, "Product updated successfully"));
 });
+
+
+// ---- Delete product ----
+export const deleteProduct = asyncHandler(async (req, res) => {
+
+  // ---- Client side data ----
+  const { id } = req.params;
+
+  // ---- Find product ----
+  const product = await Product.findById(id);
+
+  // ---- Check product exists ----
+  if (!product) throw new ApiError(404, "Product not found");
+
+  // ---- Delete product ----
+  await Product.findByIdAndDelete(id);
+
+  // ---- Success response send to client ----
+  return res.status(200).json(new ApiResponse(200, {}, "Product deleted successfully"));
+});
